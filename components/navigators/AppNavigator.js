@@ -13,8 +13,6 @@ import colors from '../../resources/colors';
 const HomeStack = createStackNavigator({
     Home: List,
 
-}, {
-    headerMode: 'none'
 });
 
 const SearchStack = createStackNavigator({

@@ -8,48 +8,36 @@
 
 import React from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
-import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-import axios from 'axios'
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import {connect} from 'react-redux';
+import {getAllParkingPlaces} from '../actions/parkingPlaces';
 
 class Map extends React.Component {
 
     state = {
-      markers: []
+        markers: [],
 
     };
 
-
-
     componentDidMount() {
 
-        const path = 'https://yakinotopark.com/admin/index.php/service/get_maps?clear=&lang=en&category=';
-        axios.get(path).then(response => {
-this.setState({markers: response.data});
-
-
-        }).catch(error => {
-           console.log('error -->', error);
-        });
-
+        this.props.getAllParkingPlaces();
 
         this._navListener = this.props.navigation.addListener('didFocus', () => {
             StatusBar.setTranslucent(false);
         });
     }
 
-
     componentWillUnmount() {
         this._navListener.remove();
     }
 
-
-
-
     render() {
+        const {parkingPlaces} = this.props;
+
         return (
 
-
-            <View style={{ flex: 1, backgroundColor: '#fff', width: '100%', height: '100%' }}>
+            <View style={{flex: 1, backgroundColor: '#fff', width: '100%', height: '100%'}}>
 
                 <MapView
                     style={styles.map}
@@ -61,12 +49,12 @@ this.setState({markers: response.data});
                         longitudeDelta: 0.361,
                     }}
                 >
-                    {this.state.markers.length > 0 && this.state.markers.map(marker => (
+                    {parkingPlaces.length > 0 && parkingPlaces.map(marker => (
                         <Marker
                             image={require('../assets/img/otopark_acik.png')}
                             coordinate={{
-                            latitude: parseFloat(marker.markers_lat),
-                                longitude: parseFloat(marker.markers_lng)
+                                latitude: parseFloat(marker.markers_lat),
+                                longitude: parseFloat(marker.markers_lng),
                             }}
                             title={marker.markers_name}
                             description={marker.markers_desc}
@@ -76,7 +64,6 @@ this.setState({markers: response.data});
                 </MapView>
 
             </View>
-
 
         );
     }
@@ -94,4 +81,10 @@ const styles = StyleSheet.create({
 
 });
 
-export default Map;
+const mapStateToProps = state => {
+    return {
+        parkingPlaces: state.parkingPlaces,
+    };
+};
+
+export default connect(mapStateToProps, {getAllParkingPlaces})(Map);
