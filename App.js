@@ -3,8 +3,10 @@ import AppNavigator from './components/navigators/AppNavigator';
 import {createAppContainer} from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import store from './store';
+import SafeAreaView from 'react-native-safe-area-view';
 
 //disable yellows
 console.disableYellowBox = true;
@@ -21,7 +23,11 @@ class App extends Component<{}> {
 
         return (
             <Provider store={store}>
-                <AppContainer/>
+                <SafeAreaProvider>
+                    <SafeAreaView style={{flex:1}} forceInset={{bottom: 'always'}}>
+                    <AppContainer/>
+                    </SafeAreaView>
+                </SafeAreaProvider>
             </Provider>
         );
     }

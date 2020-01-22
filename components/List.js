@@ -11,6 +11,8 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import {getAllParkingPlaces} from '../actions/parkingPlaces';
 import {ListItem} from 'react-native-elements';
+import SafeAreaView from 'react-native-safe-area-view';
+
 
 class List extends React.Component {
 
@@ -35,15 +37,21 @@ class List extends React.Component {
         const {parkingPlaces} = this.props;
 
         return (
-           <View style={styles.container}>
+           <SafeAreaView style={styles.container}>
                <FlatList
                    keyExtractor={this.keyExtractor}
                    data={parkingPlaces}
+                   extraData={parkingPlaces}
+                   initialNumToRender={10}
+                   maxToRenderPerBatch={15}
+                   getItemLayout={(data, index) => (
+                       {length: 80, offset: 80 * index, index}
+                   )}
                    renderItem={this.renderItem}
                />
 
 
-           </View>
+           </SafeAreaView>
 
         );
     }

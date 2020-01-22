@@ -24,7 +24,7 @@ class TabMenu extends React.Component {
 
     makeComponent = (t, index, navigation) => {
         return (
-            <Button buttonStyle={{flexDirection: 'column'}} TouchableComponent={TouchableWithoutFeedback} titleStyle={{fontSize: 12, color: navigation.state.index === index ? colors.main.primary : colors.main.secondaryText}} title={t.title} icon={<Icon name={t.icon} type="font-awesome" color={navigation.state.index === index ? colors.main.primary : colors.main.secondaryText} />} type="clear" onPress={() => navigation.navigate(t.link)} />
+            <Button key={'button'+index} buttonStyle={{flexDirection: 'column'}} TouchableComponent={TouchableWithoutFeedback} titleStyle={{fontSize: 12, color: navigation.state.index === index ? colors.main.primary : colors.main.secondaryText}} title={t.title} icon={<Icon name={t.icon} type="font-awesome" color={navigation.state.index === index ? colors.main.primary : colors.main.secondaryText} />} type="clear" onPress={() => navigation.navigate(t.link)} />
         )
     };
 
@@ -52,7 +52,7 @@ class TabMenu extends React.Component {
                 </View>
                 <View style={{flex: .2, flexDirection: 'row', justifyContent: 'center'}} >
                     <TouchableWithoutFeedback onPress={this.oriaPress} hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}>
-                    <View style={{width:60, height:60, borderRadius: 30, shadowColor: 'black', shadowOffset: 2, elevation: 3, backgroundColor: 'white', top: -25, alignItems:'center', justifyContent: 'center'}}>
+                    <View style={{width:60, height:60, borderRadius: 30, shadowColor: 'black', shadowOffset: {width: 2, height:2}, elevation: 3, backgroundColor: 'white', top: -25, alignItems:'center', justifyContent: 'center'}}>
 
                             <Animatable.View ref={ref => this.parkButton = ref}>
                                 <ScalableImage source={require('../../assets/img/parking.png')} width={62}/>

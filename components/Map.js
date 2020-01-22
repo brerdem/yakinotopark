@@ -11,6 +11,7 @@ import {StatusBar, StyleSheet, View} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {connect} from 'react-redux';
 import {getAllParkingPlaces} from '../actions/parkingPlaces';
+import SafeAreaView from 'react-native-safe-area-view';
 
 class Map extends React.Component {
 
@@ -37,7 +38,7 @@ class Map extends React.Component {
 
         return (
 
-            <View style={{flex: 1, backgroundColor: '#fff', width: '100%', height: '100%'}}>
+            <SafeAreaView style={{flex: 1, backgroundColor: '#fff', width: '100%', height: '100%'}}>
 
                 <MapView
                     style={styles.map}
@@ -49,8 +50,9 @@ class Map extends React.Component {
                         longitudeDelta: 0.361,
                     }}
                 >
-                    {parkingPlaces.length > 0 && parkingPlaces.map(marker => (
+                    {parkingPlaces.length > 0 && parkingPlaces.map((marker, i) => (
                         <Marker
+                            key={'marker'+i}
                             image={require('../assets/img/otopark_acik.png')}
                             coordinate={{
                                 latitude: parseFloat(marker.markers_lat),
@@ -63,7 +65,7 @@ class Map extends React.Component {
 
                 </MapView>
 
-            </View>
+            </SafeAreaView>
 
         );
     }
